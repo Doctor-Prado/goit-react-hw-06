@@ -14,8 +14,6 @@ import {
     REGISTER,
 } from "redux-persist";
 
-// import storage from 'redux-persist/lib/storage'; This is the correct one
-
 const storage = {
     getItem: (key) => Promise.resolve(localStorage.getItem(key)),
     setItem: (key, value) => Promise.resolve(localStorage.setItem(key, value)),
