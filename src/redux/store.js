@@ -1,6 +1,8 @@
 
+
 import { configureStore } from "@reduxjs/toolkit";
-import contactReducer from "./contactsSlice";
+import contactsReducer from "./contactsSlice";
+import filtersReducer from "./filtersSlice";
 import {
     persistStore,
     persistReducer,
@@ -20,23 +22,25 @@ const storage = {
     removeItem: (key) => Promise.resolve(localStorage.removeItem(key)),
 };
 
+
 const contactPersistConfig = {
-    key: "contactValue",
+    key: "contacts",
     storage,
-    whitelist: ["contact"],
+    whitelist: ["items"],
 };
 
-const pContactReducer = persistReducer(
+const persistedContactReducer = persistReducer(
     contactPersistConfig,
-    contactReducer
+    contactsReducer
 );
 
 export const store = configureStore({
     reducer: {
-        contacts: pContactReducer,
+        contacts: persistedContactReducer,
+        filters: filtersReducer
     },
 
-    middleware: (getDefaultMiddleware) =>
+    middleware: getDefaultMiddleware =>
         getDefaultMiddleware({
             serializableCheck: {
                 ignoredActions: [
